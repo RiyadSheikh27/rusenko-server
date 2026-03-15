@@ -34,4 +34,10 @@ class OurResultsAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-admin.site.register(RequestQuote)
+# ------------------ RequestQuote Admin ------------------
+@admin.register(RequestQuote)
+class RequestQuoteAdmin(admin.ModelAdmin):
+    list_display = ('name', 'profession', 'email', 'business_name', 'created_at')
+    search_fields = ('name', 'profession', 'email', 'business_name')
+    list_filter = ('created_at',)
+    readonly_fields = ('created_at', 'updated_at')
