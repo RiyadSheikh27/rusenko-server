@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv() 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +31,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+"""Security"""
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://pseudosessile-samuel-perkingly.ngrok-free.dev",
+    "http://localhost:8000/",
+    "http://0.0.0.0:8000/",
+    "https://backend.homehelpgroup.com.au/",
+
+]
+CORS_ALLOWED_ORIGIN = [
+    "http://localhost:5174/",
+    "http://localhost:5173/",
+]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+"""End of Security"""
 
 # Application definition
 
@@ -43,6 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'utils',
     'main',
+    'rest_framework',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -189,3 +208,12 @@ EMAIL_HOST_USER     = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL  = os.getenv('DEFAULT_FROM_EMAIL', '')
 ADMIN_EMAIL         = os.getenv('ADMIN_EMAIL', '')
+
+# Stripe
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
+
+# These are the URLs Stripe redirects to after payment.
+# Point them to your actual frontend domain in production.
+STRIPE_SUCCESS_URL = os.environ.get("STRIPE_SUCCESS_URL", "http://localhost:8000/payment/success/")
+STRIPE_CANCEL_URL = os.environ.get("STRIPE_CANCEL_URL", "http://localhost:8000/payment/cancel/")
